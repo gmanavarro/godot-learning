@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=3 uid="uid://by04uvfos5hpu"]
+
+[ext_resource type="Script" path="res://src/pong/scenes/bar.gd" id="1_r6sdn"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1vpeh"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6ruqc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cwd2g"]
+size = Vector2(64, 192)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nrwwn"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_rlmur"]
+material = SubResource("StandardMaterial3D_nrwwn")
+size = Vector2(64, 192)
+
+[node name="Bar" type="StaticBody2D"]
+material = SubResource("CanvasItemMaterial_1vpeh")
+physics_material_override = SubResource("PhysicsMaterial_6ruqc")
+script = ExtResource("1_r6sdn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_cwd2g")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+mesh = SubResource("QuadMesh_rlmur")

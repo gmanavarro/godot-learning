@@ -1,0 +1,90 @@
+[gd_scene load_steps=14 format=3 uid="uid://dcbtguqg1mbpm"]
+
+[ext_resource type="Script" path="res://src/pong/main.gd" id="1_xy1hw"]
+[ext_resource type="PackedScene" uid="uid://by04uvfos5hpu" path="res://src/pong/scenes/bar.tscn" id="2_l14da"]
+[ext_resource type="Script" path="res://src/pong/scenes/player.gd" id="3_3fimu"]
+[ext_resource type="Script" path="res://src/pong/scenes/ball.gd" id="4_cqwck"]
+[ext_resource type="Script" path="res://src/pong/scenes/bot.gd" id="4_qt6cl"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_16eek"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_afscv"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_g8736"]
+radius = 10.0
+height = 20.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_51711"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_p6gj5"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bfc5o"]
+normal = Vector2(0, 1)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_5vv1d"]
+b = Vector2(0, 640)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ktfmi"]
+font_size = 50
+
+[node name="Main" type="Node"]
+script = ExtResource("1_xy1hw")
+
+[node name="Player" parent="." instance=ExtResource("2_l14da")]
+position = Vector2(128, 320)
+script = ExtResource("3_3fimu")
+
+[node name="Bot" parent="." instance=ExtResource("2_l14da")]
+position = Vector2(896, 320)
+script = ExtResource("4_qt6cl")
+
+[node name="Ball" type="RigidBody2D" parent="."]
+position = Vector2(512, 320)
+physics_material_override = SubResource("PhysicsMaterial_16eek")
+gravity_scale = 1.66533e-16
+linear_damp_mode = 1
+angular_damp_mode = 1
+script = ExtResource("4_cqwck")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("CircleShape2D_afscv")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Ball"]
+mesh = SubResource("SphereMesh_g8736")
+
+[node name="BoardBoundaries" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_51711")
+
+[node name="Down" type="CollisionShape2D" parent="BoardBoundaries"]
+position = Vector2(0, 640)
+shape = SubResource("WorldBoundaryShape2D_p6gj5")
+
+[node name="Up" type="CollisionShape2D" parent="BoardBoundaries"]
+shape = SubResource("WorldBoundaryShape2D_bfc5o")
+
+[node name="GoalBoundaries" type="StaticBody2D" parent="."]
+
+[node name="Left" type="CollisionShape2D" parent="GoalBoundaries"]
+shape = SubResource("SegmentShape2D_5vv1d")
+
+[node name="Right" type="CollisionShape2D" parent="GoalBoundaries"]
+position = Vector2(1024, 0)
+shape = SubResource("SegmentShape2D_5vv1d")
+
+[node name="BotScore" type="Label" parent="."]
+offset_left = 576.0
+offset_right = 616.0
+offset_bottom = 69.0
+text = "0"
+label_settings = SubResource("LabelSettings_ktfmi")
+horizontal_alignment = 1
+
+[node name="PlayerScore" type="Label" parent="."]
+offset_left = 416.0
+offset_right = 456.0
+offset_bottom = 69.0
+text = "0"
+label_settings = SubResource("LabelSettings_ktfmi")
+horizontal_alignment = 1
